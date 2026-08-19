@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wildline — a nature soundscape</title>
+<meta name="description" content="Click a block to layer live, generative nature sounds — water, wind, fire, birds, storms, and more — endlessly, with no loops or logins.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero__eyebrow">Generative nature audio · no files, no loops, no sign-in</p>
+  <h1 class="hero__title">Build your own<br><em>wild</em> quiet.</h1>
+  <p class="hero__desc">Click any block below to start it — click again to stop. Every sound is synthesized live in your browser, so it never repeats or clicks at a seam, and you can layer as many as you like at once.</p>
+  <div class="hero__row">
+    <input class="search" id="search" type="text" placeholder="Search sounds… e.g. rain, owl, campfire">
+    <span class="hero__hint">200+ sounds across 17 sections</span>
+  </div>
+  <p class="hero__legend"><span class="legend-dot"></span> = a real recording hasn't been added for this one yet, so it's playing a generated placeholder.</p>
+</header>
+
+<main class="wrap">
+  <div id="sections"></div>
+</main>
+
+<footer>
+  <span>Wildline — every sound generated live with the Web Audio API.</span>
+  <span>© <span id="year"></span></span>
+</footer>
+
+<div id="nowplaying">
+  <span class="np__label">Now playing <b id="npCount">0</b></span>
+  <canvas id="viz"></canvas>
+  <button class="np__stop" id="stopAll" type="button">Stop all</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
