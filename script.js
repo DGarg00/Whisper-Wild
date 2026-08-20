@@ -71,6 +71,31 @@ function slugify(s){
   return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 }
 
+const HAS_AUDIO = new Set([
+  'afternoon-breeze','animals-moving-through-grass','avalanche-rumble','babbling-brook-stream','bears','beetles',
+  'big-cats-growling-roaring','birds-chirping','birds-singing','blizzard-wind','bubbling-underwater','calm-ocean',
+  'campfire-crackling','cave-ambience','cave-water-drops','cicadas','crickets','crickets-at-night',
+  'crickets-frogs','dawn-chorus','dawn-sunrise-ambience','deer-sounds','desert-night-ambience','desert-wind',
+  'distant-animal-calls','distant-forest-ambience','distant-storm','distant-surf','distant-thunder','distant-thunder-in-mountains',
+  'distant-waterfall','dragonflies','dry-grass-movement','dry-grass-rustling','eagle-cry','earthquake-rumble',
+  'echoes-in-a-canyon','echoing-birds','embers-glowing-crackling','evening-insects','farm-birds','fireflies-nighttime-insect-ambience',
+  'fireplace-crackling','firewood-snapping','flies-buzzing','flowing-river','forest-fire-ambience','fountain',
+  'frog-chorus','frogs','frogs-croaking','gentle-breeze','gentle-river-at-night','gentle-waves',
+  'grass-moving-in-breeze','grass-rustling','grasshoppers','gusts-of-wind','heavy-storm','hot-spring-bubbling',
+  'howling-wind','jungle-animal-ambience','jungle-birds','lake-water-lapping','large-bonfire','leaves-burning',
+  'lightning-storm-ambience','logs-popping','midday-forest','midnight-forest','monkeys-calling','monsoon-rain',
+  'morning-birds','mountain-stream','mountain-wind','night-birds','night-forest','night-forest-insects',
+  'night-insects','ocean-waves-crashing','ocean-wind','owl-hooting','owls','pine-trees-moving-in-wind',
+  'pre-dawn-silence','rain-thunder','rainfall','rainstorm','rapids','roosters-crowing',
+  'sand-blowing','sand-shifting','sandstorm','sea-shore-beach-water','seagulls','small-beach-waves',
+  'small-flame','snowfall-ambience','songbirds','strong-wind','sunset-ambience','thunder',
+  'tidal-waves','trees-swaying','tropical-birds','tropical-storm','twilight-forest','underground-water',
+  'underwater-bubbling','valley-ambience','walking-on-gravel','walking-through-forest','walking-through-mud','walking-through-tall-grass',
+  'water-dripping','waterfall','waves-at-night','waves-breaking','waves-crashing-on-rocks','wet-grass-footsteps',
+  'whistling-wind','wind-against-a-window','wind-blowing-through-an-open-field','wind-rain','wind-through-a-mountain-pass','wind-through-a-valley',
+  'wind-through-grass','wind-through-leaves','wind-through-trees','wolves-howling','wood-burning',
+]);
+
 function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
 function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 function rngFor(name){ return mulberry32(hashStr(name)); }
@@ -591,6 +616,8 @@ function buildUI(){
   const nameToEls = new Map();
 
   SECTIONS.forEach(sec=>{
+    const sounds = sec.sounds.filter(name => HAS_AUDIO.has(slugify(name)));
+    if (!sounds.length) return;
     const wrap = document.createElement('section');
     wrap.className = 'section';
     wrap.style.setProperty('--hue', sec.hue);
@@ -627,7 +654,8 @@ function buildUI(){
     <p class="section__sub">One click layers several sounds together.</p>
     <div class="grid grid--combo"></div>`;
   const grid = wrap.querySelector('.grid');
-  COMBOS.items.forEach(combo=>{
+  const combosAvailable = COMBOS.items.filter(combo => combo.layers.every(l => HAS_AUDIO.has(slugify(l))));
+combosAvailable.forEach(combo=>{
     const btn = document.createElement('button');
     btn.className='card card--combo'; btn.type='button';
     btn.innerHTML = cardHTML(combo.title, combo.icon) + `<span class="card__layers">${combo.layers.join(' · ')}</span>`;
