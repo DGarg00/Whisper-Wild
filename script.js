@@ -72,6 +72,7 @@ function slugify(s){
 }
 
 const HAS_AUDIO = new Set([
+  'branches-creaking', 'ducks', 'elephants-trumpeting', 'fox-calls', 'geese', 'hail',
   'afternoon-breeze','animals-moving-through-grass','avalanche-rumble','babbling-brook-stream','bears','beetles',
   'big-cats-growling-roaring','birds-chirping','birds-singing','blizzard-wind','bubbling-underwater','calm-ocean',
   'campfire-crackling','cave-ambience','cave-water-drops','cicadas','crickets','crickets-at-night',
